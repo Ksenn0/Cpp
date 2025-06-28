@@ -1,0 +1,1 @@
+Este primeiro exercicio foi realizado para testar os conhecimentos basicos nos conceitos de Input, Output, Variáveis, Loops e a utlização da biblioteca "String".
