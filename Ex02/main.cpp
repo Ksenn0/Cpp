@@ -6,10 +6,6 @@ void menu(){
     std::cout << "\n[1] Depositar.\n[2] Sacar.\n[3] Consultar Saldo.\n[4] Informações Gerais.\n[5] Sair.\n";
 }
 
-void alerro(){
-        std::cout << "\n\033[30;43m[ALERT!]\033[0m \033[31mValor Inválido.\033[0m\n";
-    }
-
 class ContaBancaria{
     private:
     std::string Titular;
@@ -21,16 +17,24 @@ class ContaBancaria{
         Titular = T;
     }
     void depositar(double valor){
-        saldo += valor;
-        std::cout << "\nR$\033[32m" << valor << "\033[0m Depositados.\n";
+        if (valor <= 0){
+                    std::cout << "\n\033[30;43m[ALERT!]\033[0m \033[31mNão é possivel depositar um valor nulo/negativo.\033[0m\n";
+                }else{
+                    saldo += valor;
+                    std::cout << "\nR$\033[32m" << valor << "\033[0m Depositados.\n";
+                }
     }
 
     void sacar(double valor){
-        saldo -= valor;
-        std::cout << "\nR$\033[32m" << valor << "\033[0m Sacados.\n";
+        if (valor > saldo or valor <= 0){
+            std::cout << "\n\033[30;43m[ALERT!]\033[0m \033[31mNão é possivel sacar um valor maior ou menor que o saldo.\033[0m\n";
+            }else{
+                saldo -= valor;
+                std::cout << "\nR$\033[32m" << valor << "\033[0m Sacados.\n";
+                }
     }
-    void ver_saldo(){
-        std::cout << "Saldo atual: \033[32m" << saldo << "\033[0m\n";
+    void consultarsaldo(){
+        std::cout << "\nSaldo atual: \033[32m" << saldo << "\033[0m\n";
     }
 
     double getsaldo(){
@@ -55,25 +59,17 @@ int main(){
             case 1:
                 std::cout << "\nValor: ";
                 std::cin >> v;
+                conta.depositar(v);
 
-                if (v <= 0){
-                    alerro();
-                }else{
-                    conta.depositar(v);
-                }
                 break;
             case 2:
                 std::cout << "\nValor: ";
                 std::cin >> v;
 
-                if (v > conta.getsaldo() or v <= 0){
-                    alerro();
-                }else{
-                    conta.sacar(v);
-                }
+                conta.sacar(v);
                 break;
             case 3:
-                conta.ver_saldo();
+                conta.consultarsaldo();
                 break;
             case 4:
                 std::cout << "\nNome do Titular: \033[1m" << conta.getnome() << "\033[0m\nSaldo: \033[32m" << conta.getsaldo() << "\033[0m\n";
@@ -82,7 +78,7 @@ int main(){
                 std::cout << "\n\033[1mSaindo...\033[0m\n";
                 break;
             default:
-                std::cout << "Opção inválida.\n";
+                std::cout << "\nOpção inválida.\n";
         }
     }
     return 0;
